@@ -1,6 +1,6 @@
 var mongodb = require('mongodb');
 var client = mongodb.MongoClient;
-var connstr = 'mongodb://127.0.0.1:27017/test1706candel';
+var connstr = 'mongodb://127.0.0.1:27017/eighthgroup';
 
 var apiresult = require('../modules/apiresult');
 
@@ -30,9 +30,8 @@ module.exports = {
 		})
 	},
 	delete: function(_collection, _condition, _cb) {
-		db.collection(_collection).remove(_condition || {}).toArray(function(error,result) {
+		db.collection(_collection).remove(_condition || {},function(error,result) {
 			_cb(apiresult(error ? false : true, error || result));			
-		}
-	})
+		})
+	}
 }
-db.close();

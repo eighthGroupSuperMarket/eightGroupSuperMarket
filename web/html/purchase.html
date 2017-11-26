@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>purchase</title>
+	<link rel="stylesheet" href="../libs/bootstrap-3.3.7/css/bootstrap.css">
+	<link rel="stylesheet" href="../css/purchase.css">
+</head>
+<body>
+	<div class="container">
+		<header class="bg-info">
+			<h4 class="pull-left"><a href="./html/admin.html"><span class="glyphicon glyphicon-home"></span>超市后台管理系统</a></h4>
+			<p class="pull-left col-md-6">欢迎管理员<strong>xxx</strong>到来 | 您上次登录时间是：<strong></strong></p>
+			<div class="pull-right"><a href="#">修改密码</a> | <a href="#">退出</a></div>
+		</header>
+		<div class="row">
+		    <div class="col-xs-2">
+				<ul class="nav nav-pills nav-stacked">
+				    <li role="presentation"><a href="#">用户管理</a></li>
+				    <li role="presentation" class="active"><a href="#">采购订货单</a></li>
+				    <li role="presentation"><a href="#">入库确认单</a></li>
+				    <li role="presentation"><a href="#">采购退货单</a></li>
+				</ul>
+		    </div>
+		    <div class="col-md-10">
+				<ul class="list-group">
+				   	<a class="list-group-item active">采购订货单</a>
+				   	<div class="list-group-item content">
+				   		<form action="javascript:void(0)" class="form-inline">
+				   			<div class="form-group">
+				   				<label for="product">供应商</label>
+				   				<select type="text" class="form-control" id="product">
+				   					<option value="康师傅">康师傅</option>
+				   					<option value="哇哈哈">哇哈哈</option>
+				   				</select>
+				   			</div>
+				   			<div class="form-group">
+				   				<label for="name">经办人</label>
+				   				<select type="text" class="form-control" id="name"></select>
+				   			</div>
+				   			<div class="form-group">
+				   				<label for="linkman">联系人</label>
+				   				<input type="text" class="form-control" id="linkman">
+				   			</div>
+				   			<div class="form-group">
+				   				<label for="phone">联系电话</label>
+				   				<input type="tel" class="form-control" id="phone">
+				   			</div>
+				   			<div class="form-group">
+				   				<button class="btn btn-default add"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;新增添加</button>
+				   			</div>
+				   			<div class="form-group">
+				   				<label for="point">搜索</label>
+				   				<input type="text" class="form-control" id="point">
+				   			</div>
+				   			<div class="form-group">
+				   				<label for="remark">备注</label>
+				   				<textarea class="form-control" id="remark"></textarea>
+				   			</div>
+				   			<div class="form-group">
+				   				<button class="btn btn-warning"></span>&nbsp;&nbsp;保存&nbsp;&nbsp;</button>
+				   			</div>
+				   		</form>
+						<!-- 表格 -->
+						<div id="datagrid"></div>
+
+						<!-- 弹窗 -->
+						<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+										<h4 class="modal-title" id="gridSystemModalLabel">请添加采购任务</h4>
+									</div>
+
+									<div class="modal-body">
+										<form class="form-inline">
+										  <div class="form-group">
+										    <label for="number">商品编号</label>
+										    <input type="text" class="form-control" id="number">
+										  </div>
+										  <div class="form-group">
+										    <label for="productname">商品名称</label>
+										    <input type="text" class="form-control"  id="productname">
+										  </div>
+										  <div class="form-group">
+										    <label for="brand">品牌</label>
+										    <input type="text" class="form-control"id="brand">
+										  </div>
+										  <div class="form-group">
+										    <label for="amount">数量</label>
+										    <input type="text" class="form-control"  id="amount">
+										  </div> 
+										  <div class="form-group">
+										    <label for="unit">单位</label>
+										    <input type="text" class="form-control"  id="unit">
+										  </div>
+										  <div class="form-group">
+										    <label for="price">单价</label>
+										    <input type="text" class="form-control"  id="price">
+										  </div>
+										  <div class="form-group">
+										    <label for="arrived">已到货数量</label>
+										    <input type="text" class="form-control"  id="arrived">
+										  </div>
+										  <div class="form-group">
+										    <label for="nonarrival">未到货数量</label>
+										    <input type="text" class="form-control"  id="nonarrival">
+										  </div>
+										</form>
+									</div>
+										
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-primary" id="btnSave">Save changes</button>
+									</div>
+								</div><!-- /.modal-content -->
+							</div><!-- /.modal-dialog -->
+						</div>
+				   	</div>
+				</ul>
+		    </div>
+		</div>
+	</div>
+</body>
+<script src="../libs/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="../libs/bootstrap-3.3.7/js/bootstrap.js"></script>
+<script src="../libs/common.js"></script>
+<script type="text/javascript" src="../libs/datagrid.js"></script>
+<script src="../js/purchase.js"></script>
+</html>

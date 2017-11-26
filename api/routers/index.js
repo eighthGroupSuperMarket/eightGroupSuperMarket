@@ -4,6 +4,7 @@ var bp = require('body-parser');
 
 var userRouter = require('./user');
 var productRouter = require('./product');
+var purchaseRouter = require('./purchaseRouter');
 
 module.exports = {
     start: function(_port){
@@ -24,6 +25,7 @@ module.exports = {
 
         userRouter.register(app);
         productRouter.register(app);
+        purchaseRouter.register(app);
 
         app.listen(_port);
     }
