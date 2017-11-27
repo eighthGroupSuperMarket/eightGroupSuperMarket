@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>后台管理系统</title>
+		<link rel="stylesheet" href="../libs/bootstrap-3.3.7/css/bootstrap.css">
+		<style>
+			*{margin: 0;padding: 0;}
+			header{height: 50px;background-color: #303F53;} 
+			header p{width: 260px;height: 50px;background-color: #34495E;margin: 0 ;}
+			header h4{line-height: 35px;font-weight: bold;float: left;height: 30px;margin-left: 20px;}
+			header h4 a,header div a{color:#FAEBCC;}
+			header h4 a:hover,header div a:hover{color:#fff;}
+			header h4 .glyphicon{padding-right: 5px;color:#FAEBCC;}
+			header div{margin-right: 70px;line-height: 50px;float: right}
+			.main_left{width: 260px;height: 500px;background-color:#122B40;overflow: auto;}
+			.main_right{margin-top: 15px;}
+			.admin_item h3{color: #FAEBCC;font-size: 20px;padding-left: 15px;}
+			.admin_item h3:hover{color: #fff;}
+			.tab_item{height: 40px;color:#ECF0F1;list-style: none;font-size: 18px;background-color: #708090;
+			text-align: center;line-height: 40px;border-bottom: 1px solid #ccc;}
+			.tab_item:hover{color:#fff;}
+			.form-group{margin-right: 15px;}
+			.searchhh{position: relative;}
+			.searchIcon{position: absolute;right: 5px;top: 10px;color: #245580;}
+			tr.checked{color:#F1C40F;!important}
+		</style>
+	</head>
+	
+	<body>
+		<header>
+			<p class="pull-left"></p>
+			<h4 class="pull-left">
+				<a href="./html/admin.html">
+					<span class="glyphicon glyphicon-home"></span>
+					超市后台管理系统</a>
+			</h4>
+			<div class="pull-right"><a href="#">修改密码</a> | <a href="login.html" id="exit">退出</a></div>
+		</header>
+		
+		<div id="main" class="page_main clearfix">
+			<!--左边栏-->
+            <div class="main_left pull-left">
+                <!-- 商品管理 -->
+                <div class="shop_admin_menu admin_item">
+                    <h3 class="title" data-toggle="collapse" data-target="#shopMenu"><span class="icon glyphicon glyphicon-tasks"></span>商品信息管理</h3>
+                    <!-- tab 切换：类名tab_item -->
+                    <ul class="menu tab_item_list collapse ">
+                        <li class="tab_item">商品信息查询</li>
+                        <li class="tab_item" id="add_good_mes">商品信息录入</li>
+                        <li class="tab_item">商品收银结算</li>
+                    </ul>
+                </div>
+                <!-- 员工管理 -->
+                <div class="user_admin_menu admin_item">
+                    <h3 class="title" data-toggle="collapse" data-target="#userMenu"><span class="icon glyphicon glyphicon-user"></span>员工管理</h3>
+                    <ul class="menu tab_item_list collapse" id="userMenu">
+                        <li class="tab_item">增员工信息</li>
+                        <li class="tab_item">删员工信息</li>
+                    </ul>
+                </div>
+                <!-- 采购管理 -->
+                <div class="xs_admin_menu admin_item">
+                    <h3 class="title" data-toggle="collapse" data-target="#xsMenu"><span class="icon glyphicon glyphicon-globe"></span>采购管理</h3>
+                    <ul class="menu tab_item_list collapse" id="xsMenu">
+                        <li class="tab_item">商品信息</li>
+                    </ul>
+                </div>
+                
+            </div>
+            <div class="main_right pull-left  col-md-9">
+                <!-- tab 切换：类名item_cont -->
+                	
+                <!-- 商品管理 -->
+                <div class="item_cont_list">
+             		<div class="item_cont">1a</div>
+             		<div class="item_cont">1b</div>
+             		<div class="item_cont">1c</div>
+                </div>
+                <!-- 员工管理 -->
+                <div class="item_cont_list">
+                	<div class="item_cont">2a</div>
+                	<div class="item_cont">2b</div>
+                </div>
+                <!-- 采购管理 -->
+                <div class="item_cont_list">
+                	<!--不同的内容-->
+                	<div class="item_cont">
+                		<div class="list-group-item content">
+				   		<div action="javascript:void(0)" class="form-inline">
+				   			<div class="form-group">
+				   				<button class="btn btn-default add"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;新增添加</button>
+				   			</div>
+				   			<div class="form-group searchhh"><label for="searchBox">搜索</label>
+				   				<input type="text" class="form-control" id="searchBox">
+				   				<span class="glyphicon glyphicon-search searchIcon"></span>
+				   			</div>
+				   			
+				   		</div>
+				   		<br />
+						<!-- 表格 -->
+						<div id="datagrid"></div>
+
+						<!-- 弹窗 -->
+						<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+										<h4 class="modal-title" id="gridSystemModalLabel">请添加采购任务</h4>
+									</div>
+
+									<div class="modal-body">
+										<form class="form-inline">
+										  <div class="form-group">
+										    <label for="number">商品编号</label>
+										    <input type="text" class="form-control" id="number">
+										  </div>
+										  <div class="form-group">
+										    <label for="productname">商品名称</label>
+										    <input type="text" class="form-control"  id="productname">
+										  </div>
+										  <div class="form-group">
+										    <label for="brand">品牌</label>
+										    <input type="text" class="form-control"id="brand">
+										  </div>
+										  <div class="form-group">
+										    <label for="amount">数量</label>
+										    <input type="text" class="form-control"  id="amount">
+										  </div> 
+										  <div class="form-group">
+										    <label for="unit">单位</label>
+										    <input type="text" class="form-control"  id="unit">
+										  </div>
+										  <div class="form-group">
+										    <label for="price">单价</label>
+										    <input type="text" class="form-control"  id="price">
+										  </div>
+										  <div class="form-group">
+										    <label for="arrived">已到货数量</label>
+										    <input type="text" class="form-control"  id="arrived">
+										  </div>
+										  <div class="form-group">
+										    <label for="nonarrival">未到货数量</label>
+										    <input type="text" class="form-control"  id="nonarrival">
+										  </div>
+										  <div class="form-group">
+										    <label for="code">条形码</label>
+										    <input type="text" class="form-control"  id="code">
+										  </div>
+										</form>
+									</div>
+										
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-primary" id="btnSave">Save changes</button>
+									</div>
+								</div><!-- /.modal-content -->
+							</div><!-- /.modal-dialog -->
+						</div>
+				   	</div>
+                	</div>
+                  
+                </div>
+            </div>  
+       </div> 
+	</body>
+	<script src="../libs/jquery-2.1.1.min.js"></script>
+	<script src="../js/index.js"></script>
+	<script type="text/javascript" src="../libs/bootstrap-3.3.7/js/bootstrap.js"></script>
+	<script src="../libs/global.js"></script>
+	<script type="text/javascript" src="../libs/datagrid.js"></script>
+	<script src="../js/purchase.js"></script>
+</html>

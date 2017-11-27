@@ -108,7 +108,7 @@ $.fn.datagrid = function(opts){
 		var currObj = $(event.target);
 		//更新
 		if(currObj.is('button') && currObj.attr('flag') == 'edit'){
-			$.post(common.baseUrl + 'updatepurchase', {
+			$.post(global.apiBaseUrl + 'updatepurchase', {
 				number: $(currObj).closest('tr').children().eq(0).html(),
 				brand:$(currObj).closest('tr').children().eq(1).html(),
 				amount:$(currObj).closest('tr').children().eq(2).html(),
@@ -116,15 +116,16 @@ $.fn.datagrid = function(opts){
 				productname:$(currObj).closest('tr').children().eq(4).html(),
 				price:$(currObj).closest('tr').children().eq(5).html(),
 				arrived:$(currObj).closest('tr').children().eq(6).html(),
-				nonarrival:$(currObj).closest('tr').children().eq(7).html()
+				nonarrival:$(currObj).closest('tr').children().eq(7).html(),
+				code: $(currObj).closest('tr').children().eq(8).html()
 			}, function(response){
-					console.log(response);
+//					console.log(response);
 				}
 			);
 		}
 		if(currObj.is('button') && currObj.attr('flag') == 'delete'){
 			//do delete
-			$.post(common.baseUrl +'deletepurchase', {number: $(currObj).closest('tr').children().eq(0).html()}, function(response){
+			$.post(global.apiBaseUrl+'deletepurchase', {number: $(currObj).closest('tr').children().eq(0).html()}, function(response){
 				if(response.status){
 					currObj.closest('tr').remove();
 				} else {
