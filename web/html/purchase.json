@@ -1,0 +1,27 @@
+* 1 */
+{
+    "_id" : ObjectId("5a1a93cd9c66911741b5cb98"),
+    "number" : "0002",
+    "brand" : "饮料",
+    "amount" : "234",
+    "unit" : "瓶",
+    "productname" : "怡宝",
+    "price" : "2.5",
+    "arrived" : "234",
+    "nonarrival" : "0",
+    "code" : "6928725962066"
+}
+
+/* 2 */
+{
+    "_id" : ObjectId("5a1d50c10ab531256c73bba5"),
+    "number" : "0001",
+    "brand" : "nann",
+    "amount" : "",
+    "unit" : "qdr",
+    "productname" : "",
+    "price" : "",
+    "arrived" : "de",
+    "nonarrival" : "fe",
+    "code" : "erf"
+}

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+    	<link rel="stylesheet" href="../libs/bootstrap-3.3.7/css/bootstrap.css" />
+    	<link rel="stylesheet" href="../libs/jquery-confirm/jquery-confirm.css">
+    	<link rel="stylesheet" type="text/css" href="../libs/window/x_window.css">
+		<script src="../libs/jquery-2.1.1.min.js"></script>
+    	<script type="text/javascript" src="../libs/window/x_window.js"></script>
+		<script src="../libs/jquery-confirm/jquery-confirm.js"></script>
+		<script src="../libs/global.js"></script> 
+		<script src="../libs/socket_io.js"></script>
+		<title>二维码收款</title>
+		<style>
+			p,h3{margin:0 auto;padding: 0px;}
+			body,html{background-color: #DCDCDC;}
+			.payBox{margin-top: 20px;height: 500px;text-align: center;}
+			#photo{width: 50px;height: 50px;margin:10px auto;border-radius: 0.5;overflow: hidden;border-radius: 50%;}
+			#photo img{width: 50px;height: 50px;}
+			.payBox button{width: 100%;}
+			.payBox .payBody a{text-align:left;margin-bottom: 20px;width: 60px;display: block}
+			.payHeader{background-color: #EEEEEE;padding: 20px 0;}
+			.payBody{background-color: #fff;padding-bottom: 30px;}
+			.payBody h3{padding: 20px 0;border-bottom: 1px solid #ccc;}
+		</style>
+	</head>
+	<body>
+		<div class="col-md-12 payBox">
+			<div class="payHeader container">
+				<div id="photo"><img src="./../images/photo.jpg" alt="" /></div>
+				<p>向商家EightGroupSuperMarket付款</p>
+			</div>
+			<div class="payBody container">
+				<h3>￥<span id="data-amount"></span></h3>
+				<a href="javascript:;">添加留言</a><br />
+				<button class="btn btn-success" id="clientPay">付款</button>
+			</div>
+		</div>
+		<script>
+			//点击支付按钮
+			// var indentStatus = 2;
+			// var orderNo = location.search.slice(1).split('=')[1];
+			var urlstr = decodeURI(window.location.search).slice(1);
+			
+			var arr1 = urlstr.split('&');
+			var par1 =  arr1[0].split('=')[1];
+			var par2 =  arr1[1].split('=')[1];
+			console.log(par1,par2);
+			var orderNo_id = window.localStorage.getItem('orderNo_id');
+
+			var orderNo_total = window.localStorage.getItem('orderNo_total');
+			console.log(orderNo_id,orderNo_total);
+
+			$('#data-amount').html(par1);
+			
+			var $ul = $('<ul/>');
+			$('#clientPay').on('click',function(){
+				//请求订单的数据，改变订单状态
+
+            	// $.post('http://localhost:120/changeindentdata', {id:orderNo_id},function(res){
+					// console.log(res);
+					// if(res.status && res.data.data.n == 1){
+						// $('<div/>').x_window({
+						// 	c2:'订单待支付',
+						// 	c3:'确定',
+						// 	c4:'取消',
+						// });
+						// ;
+						// console.log(6);
+						$('<div/>').x_window({
+							c2:'支付窗口',
+							c3:'确定',
+							c4:'取消',
+						});
+						$ul[0].innerHTML = '';
+						$('.action a').eq(0).click(function(){
+							console.log(666);
+							$.post('http://10.3.135.36:120/changeindentdata', {id:par2},function(res){
+								// var orderNo_id = window.localStorage.setItem('orderNo_id');
+								console.log(res);
+								if(res.status && res.data.length != 0){
+									alert(res.msg);
+
+		        					var socket = null;
+		        					if(!socket){
+		                				//建立连接
+		            					socket = io('http://10.3.135.36:66');
+		        					}
+		        					socket.emit('startPrint',par2);
+
+		        					
+								}else{
+									alert(res.msg);
+								}
+							});
+							$('.x_window').remove();
+
+							
+						})
+					
+
+				// })
+            	
+            	//调用打印机API,待写
+            	
+            	
+            	//跳转页面
+            	// $('#btnPrint').click(function(){
+            	// 	// var printContent = '?';
+            	// 	$.post('http://192.168.0.106:81/print',{text:printContent},function(res){
+            	// 		console.log(res);
+            	// 	})
+            	// })
+          		//window.location.href="index.html";
+			})
+		</script>
+	</body>
+</html>

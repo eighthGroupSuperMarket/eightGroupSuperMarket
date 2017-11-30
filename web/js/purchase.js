@@ -1,5 +1,4 @@
 jQuery(function($){
-
 	//弹窗操作
 	$('.modal').modal({
 		show: false
@@ -40,9 +39,9 @@ jQuery(function($){
 			price: $('#price').val(),
 			arrived: $('#arrived').val(),
 			nonarrival: $('#nonarrival').val(),
-			code: $('#code').val()
+			codecode: $('#codecode').val()
 			}, function(response){
-				$('#number,#brand,#amount,#unit,#productname,#price,#arrived,#nonarrival,#code').val('');
+				$('#number,#brand,#amount,#unit,#productname,#price,#arrived,#nonarrival,#codecode').val('');
 				$('#datagrid').html('');
 				ajaxData();
 			}
@@ -51,18 +50,12 @@ jQuery(function($){
 	})
 	ajaxData();
 	function ajaxData(){
-		//清空表单
-				
-				$('#datagrid').datagrid({
-					url:global.apiBaseUrl+'purchase',
-					cols: 'number,brand,productname,unit,price,amount,arrived,nonarrival,code',
-					edit: true,
-					delete: true
-				})
+		console.log($('#datagrid'));
+		$('#datagrid').datagrid({
+			url:'http://localhost:120/purchase',
+			cols: 'number,brand,productname,unit,price,amount,arrived,nonarrival,codecode',
+			edit: true,
+			delete: true
+		})
 	}
-	
-		
-        
-
-	
 })

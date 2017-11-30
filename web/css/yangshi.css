@@ -1,0 +1,38 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-size: 13px;
+  color: #fff;
+}
+
+#wrapper {
+  width: 100%;
+  scroll-y: none;
+}
+
+#nav {
+  float: left;
+  width: 220px;
+  min-height: 670px;
+  height: auto;
+  overflow-y: hidden;
+  background: #2f4050;
+  scroll-y: hidden;
+}
+
+#nav #side-menu {
+  display: block;
+}
+
+#nav #side-menu li {
+  height: 46px;
+  line-height: 46px;
+}
+
+#page-wrapper {
+  height: auto;
+  height: auto;
+  min-height: 670px;
+  scroll-y: none;
+  margin-left: 220px;
+}

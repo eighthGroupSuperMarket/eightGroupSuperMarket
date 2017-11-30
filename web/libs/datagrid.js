@@ -20,7 +20,8 @@ $.fn.datagrid = function(opts){
 		// 	var dicObj = JSON.parse(dic);
 		
 			$.get(options.url, function(response){
-				if(response.state && response.data[0]){
+
+				if(response.status && response.data[0]){
 					var cols = options.cols ? options.cols.split(',') : options.cols;
 					//生成 thead
 					var $tr = $('<tr></tr>');
@@ -117,7 +118,7 @@ $.fn.datagrid = function(opts){
 				price:$(currObj).closest('tr').children().eq(5).html(),
 				arrived:$(currObj).closest('tr').children().eq(6).html(),
 				nonarrival:$(currObj).closest('tr').children().eq(7).html(),
-				code: $(currObj).closest('tr').children().eq(8).html()
+				codecode: $(currObj).closest('tr').children().eq(8).html()
 			}, function(response){
 //					console.log(response);
 				}

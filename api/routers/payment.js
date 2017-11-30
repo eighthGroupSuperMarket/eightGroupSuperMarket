@@ -8,5 +8,20 @@ module.exports = {
                 res.send(result);
             })
         })
+        app.post('/indentdata',function(req,res){
+        	var orderNo = req.body.orderNo;
+        	var indentStatus = req.body.indentStatus;
+        	db.mongodb.select('indent', {orderNo:orderNo, indentStatus:indentStatus}, function(result){
+                res.send(result);
+            })
+        })
+        app.post('/changeindentdata',function(req,res){
+        	var orderNo = req.body.orderNo;
+        	var indentStatus = req.body.indentStatus;
+
+        	db.mongodb.update('indent', {orderNo:orderNo}, {indentStatus:indentStatus}, function(result){
+                res.send(result);
+        	})
+        })
     }
 }

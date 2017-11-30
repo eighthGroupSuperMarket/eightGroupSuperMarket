@@ -1,0 +1,228 @@
+@charset "UTF-8";
+html, body, ul, li, ol, dl, dd, dt, p, h1, h2, h3, h4, h5, h6, form, fieldset, legend, img { margin:0; padding:0; }
+fieldset, img,input,button { border:none; padding:0;margin:0;outline-style:none; }
+ul, ol { list-style:none; }
+input { padding-top:0; padding-bottom:0; font-family:"微软雅黑"}
+select, input { vertical-align:middle;}
+select, input, textarea { font-size:12px; margin:0; }
+textarea { resize:none; } 
+img {border:0; vertical-align:middle; }
+table { border-collapse:collapse; }
+body {
+    font:12px/150% "微软雅黑",Arial,Verdana,"\5b8b\4f53";
+    color:#666;
+    background:#fff;
+} 
+
+/* 清除浮动 */
+.clearfix::after {
+    content: "";
+    height: 0;
+    clear: both;
+    display: block;
+    overflow: hidden;
+    visibility: hidden;
+    zoom: 1;
+}
+
+a {color:#666; text-decoration:none; }
+a:hover{color:#C81623;}
+h1,h2,h3,h4,h5,h6 {text-decoration:none;font-weight:normal;font-size:100%;}
+s,i,em{font-style:normal;text-decoration:none;}
+.col-red{color: #C81623!important;}
+
+.fl {
+    float:left;
+}
+.fr {
+    float:right;
+}
+.al {
+    text-align:left;
+}
+.ac {
+    text-align:center;
+}
+.ar {
+    text-align:right;
+}
+.hide {
+    display:none;
+}
+.font12{ font-size: 12px;}
+.font14{ font-size: 14px;}
+.font16{ font-size: 16px;}
+
+/*公共类*/
+.container {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+/*top_banner*/
+/*#top_banner {
+    background-color: #BA0003;
+}*/
+
+/*顶部导航*/
+#top_nav {
+    height: 32px;
+    line-height: 32px;
+    color: #999999;
+    border-bottom: 1px solid #DCDCDC;
+}
+
+#top_nav span {
+    display: inline-block;
+}
+
+#top_nav ul li {
+    float: left;
+    padding: 0 10px;
+}
+
+/*搜素栏*/
+#top_search {
+    box-sizing: border-box;
+    height: 80px;
+    /*background-color: pink;*/
+    padding-top: 10px;
+}
+
+#top_search h1 {
+    text-indent: -9999em;
+    width: 236px;
+    height: 65px;
+    background: url(../img/main-img/mbshop_new_logo2.png) right top;
+}
+
+#top_search .top-search {
+    padding-top: 14px;
+    margin-left: 24px;
+    margin-right: 15px;
+}
+
+#top_search .top-search input {
+    width: 298px;
+    height: 32px;
+    border: 1px solid #D51819;
+}
+
+#top_search .top-search button {
+    width: 80px;
+    height: 34px;
+    line-height: 34px;
+    text-align: center;
+    background-color: #D51819;
+    color: #fff;
+}
+
+/*热搜*/
+#top_search .hot-search {
+    /*margin-left: 10px;*/
+}
+
+#top_search .hot-search ul li,#top_search .shop-car {
+    padding-top: 14px;
+    float: left;
+    line-height: 34px;
+}
+
+#top_search .hot-search ul li {
+    /*margin-left: 10px;*/
+}
+
+#top_search .hot-search li span {
+    border-right: 1px solid #c1c1c1;
+    padding: 0 10px;
+}
+
+/*购物袋*/
+#top_search .shop-car {
+    margin-left: 60px;
+}
+
+/*商品导航*/
+#shop_nav {
+    border-bottom: 1px solid #D51819;
+}
+
+#shop_nav .container {
+    position: relative;
+}
+
+#shop_nav .shop-class {
+   width: 236px;
+   height: 40px;
+   line-height: 40px;
+   box-sizing: border-box;
+   padding-left: 40px;
+   color: #fff; 
+   background-color: #D51819;
+   font-size: 14px;
+}
+
+#shop_nav .shop-nav li {
+    float: left;
+}
+
+#shop_nav .shop-nav li a {
+    display: inline-block;
+    width: 100px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 16px;
+    box-sizing: border-box;
+    padding-top: 20px;
+    height: 40px;
+}
+
+#shop_nav .shop-list {
+    position: absolute;
+    left: 0;
+    width: 236px;
+    border: 1px solid #D51819;
+    padding-bottom: 12px;
+    padding-left: 10px;
+    box-sizing: border-box;
+}
+
+.shop-list ul li {
+    width: 234px;
+    /*height: 70px;*/
+    box-sizing: border-box;
+}
+
+.shop-list li div {
+    padding-right:10px;
+}
+
+.shop-list li div a{margin-right: 3px;}
+
+.shop-list li dt {
+    font-size: 12px;
+    padding-right: 18px;
+    margin-top: 10px;
+    height: 22px;
+    line-height: 22px;
+}
+
+.shop-list li p a {
+    margin-right: 10px;
+}
+
+.shop-list li dt a{
+    font-weight: 700;
+}
+
+.shop-list li dt span {
+    font-family: "SimSun";
+    font-size: 16px;
+    color: #D51819;
+    font-weight: 700;
+}
+
+#carousel .top-carousel {
+    padding-top: 5px;
+    padding-left: 241px;
+}

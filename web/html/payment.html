@@ -1,32 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Payment</title>
-    <link rel="stylesheet" href="libs/bootstrap-3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="libs/jquery-confirm/jquery-confirm.css">
 
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>Payment</title>
+		<link rel="stylesheet" href="../libs/bootstrap-3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../libs/jquery-confirm/jquery-confirm.css">
 
-    <script src="libs/jquery-2.1.1.min.js"></script>
-    <script src="libs/jquery-confirm/jquery-confirm.js"></script>
-    <script src="./libs/global.js"></script>    
-</head>
-<body>
-    <input type="text" id="barcode">
+		<script src="../libs/jquery-2.1.1.min.js"></script>
+		<script src="../libs/jquery-confirm/jquery-confirm.js"></script>
+		<script src="../libs/global.js"></script>
+		<script src="../libs/jquery-qrcode/jquery.qrcode.min.js"></script>
+		<script src="../libs/socket_io.js"></script>
 
-    <script>
-        $(function(){
-            $('#barcode').focus().keyup(function(e){
-                if(e.keyCode == 13){
-                    //console.log($(this).val());
-                    $.post(global.apiBaseUrl + 'getproduct', {barcode: $(this).val()}, function(res){
-                        console.log(res);
-                    })
-                }
-            });
-        })
-    </script>
-</body>
+	</head>
+
+	<body>
+		<input type="text" id="barcode">
+		<button class="btn btn-success" id="btn_pay">生成订单</button>
+		<div id="code"></div>
+		<div class="printOrder btn btn-success">打印小票</div>
+
+		<script>
+			$(function() {
+				/*$('#barcode').focus().keyup(function(e){
+				    if(e.keyCode == 13){
+				        //console.log($(this).val());
+				        $.post(global.apiBaseUrl + 'getproduct', {barcode: $(this).val()}, function(res){
+				            console.log(res);
+				        })
+				    }
+				});*/
+				var indentStatus = 0;
+				var orderNo = 2;
+			
+				$('#btn_pay').on('click', function() {
+					//清楚上次数据，初始化
+					$('#code').html('');
+					//生成订单，待写
+					
+					//请求订单的数据，改变订单状态
+					$.post(global.apiBaseUrl + 'indentdata', {
+						indentStatus: indentStatus,
+						orderNo: orderNo
+					}, function(response) {
+						//未支付
+						if (response.state == true && response.data.length != 0) {
+							if (response.data[0].indentStatus == 0) {
+								//待支付
+								indentStatus = 2;
+								//到后台更改数据
+								$.post(global.apiBaseUrl + 'changeindentdata', {
+									indentStatus: indentStatus,
+									orderNo: orderNo
+								}, function(response) {
+									console.log(response);
+									if(response.state == true ){
+										console.log('修改状态成功');
+									}else{console.log('修改错误');}
+									
+								}) 
+							}
+							//生成二维码
+						$('#code').qrcode('http://10.3.135.36:88/web/html/checkout.html?orderNo=orderNo');
+						}else{console.log('找不到该订单');}
+					})
+					
+					
+				})
+				
+					//调用打印机
+					//点击生成订单后
+			        var socket = null;
+			        if(!socket){
+			                //建立连接
+			            socket = io('http://localhost:66');
+			        }  
+			        socket.on('printOrder',function(){
+			        	$('.printOrder').on('click',function(){
+			        	console.log('printOrder客户端');
+			             /*$.post("http://10.3.135.36:66/print", {text: orderText}, function(res){
+			                    console.log(res);
+			                    /*$('.order_code').html('<p style="line-height:100px;color:#58bc58;text-align:center;font-size:30px;">支付成功</p><p class="glyphicon glyphicon-ok"style="line-height: 22px;color: #58bc58;padding-left: 50px;font-size: 90px;"></p>');
+			                    setTimeout(function(){$('.code_box').click()},2000);
+			                    trArr = [];
+			                    $('.order_list').html('');
+			                });*/
+			            })
+	        		});
+				
+			})
+			
+		</script>
+	</body>
+
 </html>

@@ -8,6 +8,7 @@ var productRouter = require('./product');
 var purchaseRouter = require('./purchaseRouter');
 var paymentRouter = require('./payment');
 
+
 module.exports = {
     start: function(_port){
 

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Document</title>
+<!-- <link rel="stylesheet" type="text/css" href="../web/src/lib/bootstrap-3.3.7/dist/css/bootstrap.css" /> -->
+<link rel="stylesheet" type="text/css" href="../libs/bootstrap-3.3.7/css/bootstrap.css" />
+<!-- <script type="text/javascript" src="src/lib/jquery-3.2.1.js"></script> -->
+<script type="text/javascript" src="../libs/jquery-2.1.1.min.js"></script>
+<!-- <script src="../web/src/lib/jquery.qrcode.min.js"></script> -->
+<script src="../libs/jquery-qrcode/jquery.qrcode.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var str = "";
+        $('#code').qrcode(str);
+        
+        $("#sub_btn").click(function(){
+            var code = document.querySelector('#code');
+            code.style.display = 'block';
+            $("#code").empty();
+            var str = toUtf8($("#mytxt").val());
+            
+            $("#code").qrcode({
+                render: "table",
+                width: 200,
+                height:200,
+                text: str
+            });
+        });
+    })
+    function toUtf8(str) {   
+        var out, i, len, c;   
+        out = "";   
+        len = str.length;   
+        for(i = 0; i < len; i++) {   
+            c = str.charCodeAt(i);   
+            if ((c >= 0x0001) && (c <= 0x007F)) {   
+                out += str.charAt(i);   
+            } else if (c > 0x07FF) {   
+                out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));   
+                out += String.fromCharCode(0x80 | ((c >>  6) & 0x3F));   
+                out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));   
+            } else {   
+                out += String.fromCharCode(0xC0 | ((c >>  6) & 0x1F));   
+                out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));   
+            }   
+        }   
+        return out;   
+    }  
+</script>
+</head>
+<body>
+<div style="width:50%;float: left;">
+    <div>
+        <p>商品查询</p>
+        <input type="text" id="goodsID"/>
+        <button id="btn">确定</button>
+    </div>
+    <div>
+        <table class="table table-striped" >
+            <thead>
+                <th>ID</th>
+                <th>商品名</th>
+                <th>数量</th>
+                <th>价格</th>
+                <th>总计</th>
+            </thead>
+            <tbody id="tbody"></tbody>
+        </table>
+    </div>
+    <div>
+        <p>总计<i id="needPay"></i>RMB</p>
+        <input type="button" value="确认支付" class="btn btn-primary btn-lg active" id="confirmBuy"/>
+    </div>
+</div> 
+   
+<div id="main" style=" width:50%;float: right;">
+   <h2 class="top_title"><a>使用jquery.qrcode生成二维码</a></h2>
+   <div class="demo">
+        <p>生成二维码：</p>
+        <p>输入商品id号获取条形码</p>
+        <p>
+            <input type="text"  class="search"/>
+            <input type="button" id="searchewm" value="查找">
+        </p>
+        <p>条形码：</p>
+        <p>
+            <table id="">
+                <tbody id="tbodys"></tbody>
+            </table>
+            <input type="text" class="input" id="mytxt">
+            <input type="button" id="sub_btn" value="复制条形码生成二维码"/>
+        </p>
+        <div id="code" style="display: none;"></div>
+   </div>
+
+</div>
+<!-- <script src="src/lib/global.js"></script>   -->
+<!-- <script src=".."></script>   -->
+<script>
+    $(function(){
+        $('#btn').on('click',function(){
+            var goodsID = $('#goodsID').val();
+
+            $.post('http://localhost:120/getsettleAccout',{goodsID:goodsID},function(res){
+                console.log(res); // => 接收商品信息收商品信息
+                var total;
+                let tbody = document.querySelector('#tbody');
+                var tr = document.createElement('tr');
+                tr.innerHTML = res.data.map(item=>{
+                    total = item.price;   
+                   // console.log(total);
+                    return `
+                            <td>${item.goodsID}</td>
+                            <td>${item.goodsname}</td>
+                            <td class="goodsqty">
+                                <input type="button" value="-" class ="minus">
+                                <input type="text" value="1" class ="qty">
+                                <input type="button" value="+" class ="add">
+                            </td>
+                            <td class="goodsprice">${item.price}</td>
+                            <td class='totalprice'>${total}</td>
+                            
+                    `
+                }).join('');
+              
+                tbody.appendChild(tr);
+                
+        
+                $('.goodsqty').on('click','.add',function(){
+                    $(this).prev('.qty').val($(this).prev('.qty').val()*1+1);
+                    $total = $(this).closest('.goodsqty').siblings('.goodsprice').html()*($(this).prev('.qty').val());
+                    // console.log($('.qty').val());
+                    // console.log($total);
+                    $(this).closest('.goodsqty').siblings('.totalprice').html($total);
+                    var totalPay = 0;
+
+                    var tdArr = $('.totalprice');
+                    // var tdArr = document.getElementsByClassName('totalprice');
+                    // console.log(tdArr);
+
+                    tdArr.each(function(index,item){
+                        console.log(item.innerText);
+                        totalPay += Number(item.innerText);
+                    })
+                    $('#needPay').html(totalPay);
+                });
+                $('.goodsqty').on('click','.minus',function(){    
+                    if($(this).next('.qty').val()<2){
+                        $(this).next('.qty').val($(this).next('.qty').val())==1;
+                    }else{
+                        $(this).next('.qty').val($(this).next('.qty').val()*1-1);
+                        $total = $(this).closest('.goodsqty').siblings('.goodsprice').text()*($(this).next('.qty').val());
+                        // console.log($(this).next('.qty').val());
+                        // console.log($total);
+                        $(this).closest('.goodsqty').siblings('.totalprice').html($total);
+                    }
+                    var totalPay = 0;
+
+                    var tdArr = $('.totalprice');
+                    // var tdArr = document.getElementsByClassName('totalprice');
+                    // console.log(tdArr);
+
+                    tdArr.each(function(index,item){
+                        console.log(item.innerText);
+                        totalPay += Number(item.innerText);
+                    })
+                    $('#needPay').html(totalPay);
+                });
+             
+                $('.goodsqty').on('blur','.qty',function(){
+                    $total = $(this).closest('.goodsqty').siblings('.goodsprice').text()*($(this).val());
+                    console.log($('.qty').val());
+                    $(this).closest('.goodsqty').siblings('.totalprice').html($total);
+                    var totalPay = 0;
+
+                    var tdArr = $('.totalprice');
+                    // var tdArr = document.getElementsByClassName('totalprice');
+                    // console.log(tdArr);
+
+                    tdArr.each(function(index,item){
+                        console.log(item.innerText);
+                        totalPay += Number(item.innerText);
+                    })
+                    $('#needPay').html(totalPay);
+                })
+
+            });
+        })
+            
+        $('#searchewm').on('click',function(){
+            var goodsID = $('.search').val();
+
+            $.post('http://localhost:120/getsettleAccout',{goodsID:goodsID},function(res){
+
+                let tbodys = document.querySelector('#tbodys');
+                var tr = document.createElement('tr');
+                tr.innerHTML = res.data.map(item=>{
+                    return `
+                        <td>${item.barcode}</td>
+                    `
+                }).join('');
+
+                tbodys.appendChild(tr);
+            })
+        })
+
+        $('#confirmBuy').on('click',function(){
+            var needPay = $('#needPay').html();
+            console.log(needPay);
+            var order = {
+                needPay : needPay,
+                status:0
+            };
+            $.post('http://localhost:120/getsettleAccout',order,function(res){
+                    
+            })
+        })
+
+    }) 
+</script>
+</body>
+</html>

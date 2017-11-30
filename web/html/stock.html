@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>库存</title>
+	<link rel="stylesheet" href="../css/base.css">
+	<link rel="stylesheet" href="../css/stock.css">
+	<link rel="stylesheet" type="text/css" href="../libs/x_window/x_window.css">
+</head>
+<body>
+	<div id="main1">
+		<div class="mainr">
+			<div class="maintb">
+				<div class="search">
+					<select name="stype" id="stype">
+						<option value="商品编号">商品编号</option>
+						<option value="商品类型">商品类型</option>
+						<option value="收货单号">收货单号</option>
+					</select>
+					<input type="text" id="search">
+					<button id="gosearch">搜索</button>
+				</div>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>收货单</th>
+							<th>商品编号</th>
+							<th>商品名称</th>
+							<th>商品类型</th>
+							<th>商品进价</th>
+							<th>存货数量</th>
+							<th>库管员</th>
+							<th>备注</th>
+							<th>编辑</th>
+							<th>删除</th>
+						</tr>
+					</thead>
+					<tbody id="tbody1">
+						<tr>
+							<td>1</td>
+							<td>2</td>
+							<td>3</td>
+							<td>4</td>
+							<td>5</td>
+							<td>6</td>
+							<td>7</td>
+							<td>8</td>
+							<td><button class="edit">编辑</button></td>
+							<td><button class="delete">删除</button></td>
+						</tr>
+						<tr>
+							<td>1</td>
+							<td>2</td>
+							<td>3</td>
+							<td>4</td>
+							<td>5</td>
+							<td>6</td>
+							<td>7</td>
+							<td>8</td>
+							<td><button class="edit">编辑</button></td>
+							<td><button class="delete">删除</button></td>
+						</tr>
+						<tr>
+							<td>1</td>
+							<td>2</td>
+							<td>3</td>
+							<td>4</td>
+							<td>5</td>
+							<td>6</td>
+							<td>7</td>
+							<td>8</td>
+							<td><button class="edit">编辑</button></td>
+							<td><button class="delete">删除</button></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="stockpage">
+					
+				</div>
+				<div class="addshop">
+					<a href="javascript:void(0);"><span class="add_shop">点击此处开始添加</span></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="main_xx">
+		<div id="fullbg"></div> 
+		<div id="dialog"> 
+		<p class="close"><a href="#" class="closeBg">关闭</a></p> 
+		<div class="editlist">
+			<span>收货单</span><input type="text" id="waybill"><br/>
+			<span>商品编号</span><input type="text" id="goodno"><br/>
+			<span>商品名称</span><input type="text" id="goodname"><br/>
+			<span>商品类型</span><input type="text" id="goodtype"><br/>
+			<span>商品进价</span><input type="text" id="inprice"><br/>
+			<span>商品数量</span><input type="text" id="quantity"><br/>
+			<span>库管员</span><input type="text" id="manager"><br/>
+			<span>备注</span><input type="text" id="remark"><br/>
+			<button class="saveedit">保存</button><button class="addkeep">保存添加</button>
+
+		</div> 
+		</div> 	
+	</div> 
+	<script src="../libs/jquery-2.1.1.min.js"></script>
+	<script src="../libs/global.js"></script>
+	<script src="../js/stock.js"></script>
+	<script type="text/javascript" src="../libs/x_window/x_window.js"></script>
+	<script>
+		// $.post(global.apiBaseUrl+'stock',function(res){
+		// 	// console.log(res.length);
+		// 	var $qty = 15;
+		// 	var pageNo = Math.ceil(res.length/$qty);
+		// 	var data = res.slice(0,$qty);
+		// 	makeHTML(data);
+
+		// 	for(var i=1;i<pageNo+1;i++){
+		// 		var page = $('<span>'+ i +'</span>').css({'display':'inline-block','width':'20px','height':'20px','border':'1px solid #ccc','text-align':'center','padding':'0 5px'});		
+		// 		$('.stockpage').append(page);
+		// 	}
+
+		// 	$('.stockpage').on('click','span',function(){
+		// 		var num = $(this).html();
+		// 		var pagelen = $('.stockpage').children('span');
+		// 		for(var i=0;i<pagelen.length;i++){
+		// 			console.log(pagelen[i]);
+		// 			pagelen.eq(i).css({'background':'#fff'});
+		// 		}
+		// 		$(this).css({'background':'#ccc'});
+		// 		 data = res.slice((num-1)*$qty,num*$qty);
+		// 		makeHTML(data);
+		// 	});
+
+
+		// })
+
+			// function makeHTML(data){
+			// 	var tr = $.map(data,function(item,idx){
+			// 		return `
+			// 		<tr>
+			// 			<td>${item.waybill}</td>
+			// 			<td>${item.goodno}</td>
+			// 			<td>${item.goodname}</td>
+			// 			<td>${item.goodtype}</td>
+			// 			<td>${item.inprice}</td>
+			// 			<td>${item.quantity}</td>
+			// 			<td>${item.manager}</td>
+			// 			<td>${item.remark}</td>
+			// 			<td><button class="edit">编辑</button></td>
+			// 			<td><button class="delete">删除</button></td>
+			// 		</tr>
+			// 		`
+			// 	}).join('');
+			// 	$('#tbody1').html(tr);
+			// }
+
+		// $('.table').on('click','.edit',function(e){
+		// 	var target = e.target;
+		// 	var bh = $("body").height(); 
+		// 	var bw = $("body").width(); 
+		// 	$("#fullbg").css({ 
+		// 		height:bh, 
+		// 		width:bw, 
+		// 		display:"block" 
+		// 		}); 
+		// 	$("#dialog").show(); 
+		// 	$('.addkeep').css('display','none');
+		// 	$('.saveedit').css('display','block');
+		// 	var editdet = $(".editlist").children('input');
+
+		// 	// console.log(editdet);
+		// 	var parenttr = target.parentNode.parentNode;
+		// 	var child = parenttr.children;
+
+		// 	// console.log(child)
+		// 	for(var i=0;i<editdet.length;i++){
+		// 		editdet[i].value = child[i].innerText;
+		// 	}
+
+		// 	$('.saveedit').click(function(){
+		// 		for(var i=0;i<editdet.length;i++){
+		// 			child[i].innerHTML = editdet[i].value;
+		// 		}
+		// 		var res1 = {
+  //             	waybill:child[0].innerText,
+  //             	goodno:child[1].innerText,
+  //             	goodname:child[2].innerText,
+  //             	goodtype:child[3].innerText,
+  //             	inprice:child[4].innerText,
+  //             	quantity:child[5].innerText,
+  //             	manager:child[6].innerText,
+  //             	remark:child[7].innerText
+  //             };
+  //             console.log(res1)
+
+  //             $.post(global.apiBaseUrl+'update',res1,function(result){
+		// 	})
+
+		// 		$("#fullbg,#dialog").hide(); 
+
+		// 	})
+		// })
+	
+	// $('.add_shop').click(function(){
+	// 	var bh = $("body").height(); 
+	// 	var bw = $("body").width(); 
+	// 	$("#fullbg").css({ 
+	// 			height:bh, 
+	// 			width:bw, 
+	// 			display:"block" 
+	// 			}); 
+	// 		// $("#dialog").show(); 
+	// 	$("#fullbg,#dialog").show();
+	// 	$('.saveedit').css('display','none');
+	// 	$('.addkeep').css('display','block');
+
+	// 	var insertdet = $(".editlist").children('input');
+	// 		for(var i=0;i<insertdet.length;i++){
+	// 			insertdet[i].value='';
+	// 		}
+
+	// });
+
+
+	// $('.addkeep').click(function(){
+	// 		var html =$('<tr/>');
+	// 		var insertarr = [];
+	// 		var insertdet = $(".editlist").children('input');
+
+	// 		for(var i=0;i<insertdet.length;i++){
+	// 			html.append( "<td>"+insertdet[i].value+"</td>");
+	// 			insertarr.push(insertdet[i].value);
+	// 			}
+
+	// 			html.append(`<td><button class="edit">编辑</button></td><td><button class="delete">删除</button></td>`);
+	// 		$('#tbody1').append(html);
+
+	// 		var res2 = {
+ //              	waybill:insertarr[0],
+ //              	goodno:insertarr[1],
+ //              	goodname:insertarr[2],
+ //              	goodtype:insertarr[3],
+ //              	inprice:insertarr[4],
+ //              	quantity:insertarr[5],
+ //              	manager:insertarr[6],
+ //              	remark:insertarr[7]
+ //              };
+
+ //              $.post(global.apiBaseUrl+'insert',res2,function(result){
+	// 		})
+ //              $("#fullbg,#dialog").hide(); 
+
+	// })
+
+
+		// $('.table').on('click','.delete',function(e){
+		// 	var target = e.target;
+		// 	var r = confirm("确定删除吗？")
+		// 	if(r == true){
+		// 		var currentTr = target.parentNode.parentNode;
+
+		// 		currentTr.parentNode.removeChild(currentTr);
+
+		// 		var goodno = currentTr.children[1].innerText;
+
+		// 		$.post(global.apiBaseUrl+'delete',{goodno:goodno},function(res){
+
+		// 		})
+		// 	}
+		// })
+		// $('.closeBg').on('click',function(){
+		// 	$("#fullbg,#dialog").hide(); 
+		// })
+
+		
+	</script>
+</body>
+</html>

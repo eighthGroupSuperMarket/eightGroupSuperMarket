@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<link rel="stylesheet" href="./libs/bootstrap-3.3.7/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="./libs/x_window/x_window.css">
+		<link rel="stylesheet" type="text/css" href="css/index.css">
+		<link rel="stylesheet" href="./libs/jquery-confirm/jquery-confirm.css">
+		<link rel="stylesheet" type="text/css" href="../web/css/stock1.css">
+		<script src="libs/socket_io.js"></script>
+		<title>后台管理系统</title>
+	</head>
+	
+	<body>
+		<header>
+			<p class="pull-left"></p>
+			<h4 class="pull-left">
+				<a href="./html/admin.html">
+					<span class="glyphicon glyphicon-home"></span>
+					超市后台管理系统</a>
+			</h4>
+			<div class="pull-right"><a href="#" id="changePwd">修改密码</a> | <a href="login01.html" id="exit">退出</a></div>
+		</header>
+		
+		<div id="main" class="page_main clearfix">
+			<!--左边栏-->
+            <div class="main_left pull-left">
+                <!-- 商品管理 -->
+                <div class="shop_admin_menu admin_item">
+                    <h3 class="title" data-toggle="collapse" data-target="#shopMenu"><span class="icon glyphicon glyphicon-tasks"></span>商品信息管理</h3>
+                    <!-- tab 切换：类名tab_item -->
+                    <ul class="menu tab_item_list collapse ">
+                        <li class="tab_item">商品信息查询</li>
+                        <li class="tab_item">商品收银结算</li>
+                    </ul>
+                </div>
+                <!-- 员工管理 -->
+                <div class="user_admin_menu admin_item">
+                    <h3 class="title" data-toggle="collapse" data-target="#userMenu"><span class="icon glyphicon glyphicon-user"></span>员工管理</h3>
+                    <ul class="menu tab_item_list collapse" id="userMenu">
+                        <li class="tab_item">员工信息</li>
+                        <!-- <li class="tab_item">删员工信息</li> -->
+                    </ul>
+                </div>
+                <!-- 采购管理 -->
+                <div class="xs_admin_menu admin_item">
+                    <h3 class="title" data-toggle="collapse" data-target="#xsMenu"><span class="icon glyphicon glyphicon-globe"></span>采购管理</h3>
+                    <ul class="menu tab_item_list collapse" id="xsMenu">
+                        <li class="tab_item" id="purchaseInfo">商品信息</li>
+                    </ul>
+                </div>
+                
+            </div>
+            <div class="main_right pull-left  col-md-9">
+                <!-- tab 切换：类名item_cont -->
+                	
+                <!-- 商品管理 -->
+                <div class="item_cont_list">
+             		<!-- 商品信息查询 -->
+             		<div class="item_cont">
+             			
+
+						<div id="main1">
+							<div class="mainr">
+								<div class="maintb">
+									<div class="search">
+										<select name="stype" id="stype">
+											<option value="商品编号">商品编号</option>
+											<option value="商品类型">商品类型</option>
+											<option value="收货单号">收货单号</option>
+										</select>
+										<input type="text" id="search">
+										<button id="gosearch">搜索</button>
+									</div>
+									<table class="table">
+										<thead>
+											<tr>
+												<th>收货单</th>
+												<th>商品编号</th>
+												<th>商品名称</th>
+												<th>商品类型</th>
+												<th>商品进价</th>
+												<th>存货数量</th>
+												<th>库管员</th>
+												<th>备注</th>
+												<th>编辑</th>
+												<th>删除</th>
+											</tr>
+										</thead>
+										<tbody id="tbody1">
+											
+										</tbody>
+									</table>
+									<div class="stockpage">
+										
+									</div>
+									<div class="addshop">
+										<a href="javascript:void(0);"><span class="add_shop">点击此处开始添加</span></a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="main_xx">
+							<div id="fullbg"></div> 
+							<div id="dialog"> 
+								<p class="close"><a href="#" class="closeBg">关闭</a></p> 
+								<div class="editlist">
+									<span>收货单</span><input type="text" id="waybill"><br/>
+									<span>商品编号</span><input type="text" id="goodno"><br/>
+									<span>商品名称</span><input type="text" id="goodname"><br/>
+									<span>商品类型</span><input type="text" id="goodtype"><br/>
+									<span>商品进价</span><input type="text" id="inprice"><br/>
+									<span>商品数量</span><input type="text" id="quantity"><br/>
+									<span>库管员</span><input type="text" id="manager"><br/>
+									<span>备注</span><input type="text" id="remark"><br/>
+									<button class="saveedit">保存</button><button class="addkeep">保存添加</button>
+								</div> 
+							</div> 	
+						</div>
+
+
+             	</div>
+             		<!-- 支付区块 -->
+             		<div class="item_cont">
+						<div>
+						    <div>
+						        <p>输入二维码</p>
+						        <input type="text" id="goodsID"/>
+						        <button id="btn">搜素</button>
+						    </div>
+						    <div class="searchGoods">
+						        <table class="table table-striped" >
+						            <thead>
+						                <th>ID</th>
+						                <th>商品名</th>
+						                <th>数量</th>
+						                <th>价格</th>
+						                <th>总价</th>
+						            </thead>
+						            <tbody id="tbody"></tbody>
+						        </table>
+						    </div>
+						    <div>
+						        <p>总计<i id="needPay"></i>元</p>
+						        <!-- <input type="button" value="确认支付" class="btn btn-primary btn-lg active" id="confirmBuy"/> -->
+						    </div>
+						</div> 
+
+						<!-- <input type="text" id="barcode"> -->
+						<button class="btn btn-success" id="btn_pay">生成订单</button>
+						<div id="code"></div>
+             		</div>
+                </div>
+                <!-- 员工管理 -->
+                <div class="item_cont_list">
+                	<div class="item_cont">
+                		<!-- 员工信息 -->
+                		<div class="userManage">
+							<div class="dataHeader">
+								<h1 class="fl">用户管理</h1>
+								<div class="header-right fr">
+									<input type="text" name="search" class="fl" id="searchContent_user" placeholder="搜素内容"><button id="btnSearch_user" class="fl">查询</button>
+								</div>
+							</div>
+							<div class="userDate"></div>
+							<div class="dataFooter"><button id="addPerson">新增员工</button></div>
+						</div>
+                	</div>
+                	<!-- <div class="item_cont">2b</div> -->
+                </div>
+                <!-- 采购管理 -->
+                <div class="item_cont_list">
+                	<!--不同的内容-->
+                	<div class="item_cont">
+                		<div class="list-group-item content">
+				   		<div action="javascript:void(0)" class="form-inline">
+				   			<div class="form-group">
+				   				<button class="btn btn-default add"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;新增添加</button>
+				   			</div>
+				   			<div class="form-group searchhh"><label for="searchBox">搜索</label>
+				   				<input type="text" class="form-control" id="searchBox">
+				   				<span class="glyphicon glyphicon-search searchIcon"></span>
+				   			</div>
+				   			
+				   		</div>
+				   		<br />
+						<!-- 表格 -->
+						<div id="datagrid"></div>
+
+						<!-- 弹窗 -->
+						<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+										<h4 class="modal-title" id="gridSystemModalLabel">请添加采购任务</h4>
+									</div>
+
+									<div class="modal-body">
+										<form class="form-inline">
+										  <div class="form-group">
+										    <label for="number">商品编号</label>
+										    <input type="text" class="form-control" id="number">
+										  </div>
+										  <div class="form-group">
+										    <label for="productname">商品名称</label>
+										    <input type="text" class="form-control"  id="productname">
+										  </div>
+										  <div class="form-group">
+										    <label for="brand">品牌</label>
+										    <input type="text" class="form-control"id="brand">
+										  </div>
+										  <div class="form-group">
+										    <label for="amount">数量</label>
+										    <input type="text" class="form-control"  id="amount">
+										  </div> 
+										  <div class="form-group">
+										    <label for="unit">单位</label>
+										    <input type="text" class="form-control"  id="unit">
+										  </div>
+										  <div class="form-group">
+										    <label for="price">单价</label>
+										    <input type="text" class="form-control"  id="price">
+										  </div>
+										  <div class="form-group">
+										    <label for="arrived">已到货数量</label>
+										    <input type="text" class="form-control"  id="arrived">
+										  </div>
+										  <div class="form-group">
+										    <label for="nonarrival">未到货数量</label>
+										    <input type="text" class="form-control"  id="nonarrival">
+										  </div>
+										  <div class="form-group">
+										    <label for="codecode">条形码</label>
+										    <input type="text" class="form-control" id="codecode">
+										  </div>
+										</form>
+									</div>
+										
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-primary" id="btnSave">Save changes</button>
+									</div>
+								</div><!-- /.modal-content -->
+							</div><!-- /.modal-dialog -->
+						</div>
+				   	</div>
+                	</div>
+                  
+                </div>
+            </div>  
+       </div>
+	</body>
+	<script src="./libs/jquery-2.1.1.min.js"></script>
+	<script src="./js/index.js"></script>
+	<script type="text/javascript" src="./libs/bootstrap-3.3.7/js/bootstrap.js"></script>
+	<script src="./libs/global.js"></script>
+	<script type="text/javascript" src="./libs/datagrid.js"></script>
+	<script src="./js/purchase.js"></script>
+	<script type="text/javascript" src="./libs/x_window/x_window.js"></script>
+	<script src="./libs/jquery-confirm/jquery-confirm.js"></script>
+	<script src="./libs/jquery-qrcode/jquery.qrcode.min.js"></script> 
+</html>
